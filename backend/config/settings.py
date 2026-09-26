@@ -10,9 +10,11 @@ MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware', 'fleet_app.middleware.req
 ROOT_URLCONF = 'config.urls'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
+TIME_ZONE = 'Asia/Shanghai'
+USE_TZ = True
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
         'NAME': os.getenv('DB_NAME', 'fleet_dispatch'),
         'USER': os.getenv('DB_USER', 'fleet_user'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'fleet_password'),

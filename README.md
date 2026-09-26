@@ -16,11 +16,25 @@ docker compose up -d
 
 ## 主要功能
 
-- 调度中心：创建调度单、指派车辆和司机、查看运输时间线。
+- 调度中心：创建调度单、指派车辆和司机、查看运输时间线；**建单与发车自动执行司机班次合规预检**。
 - 车辆管理：车辆卡片、维保历史、油耗趋势入口。
-- 司机管理：状态筛选、调度历史、驾驶时长统计。
+- 司机管理：状态筛选、调度历史、驾驶时长统计；**档案可配置每日驾驶上限、任务间最短休息、夜间连续休息（22:00-次日06:00）**。
 - 维保管理：维修日历、费用统计、到期高亮。
 - 油耗分析：油耗趋势、月度总油耗、异常油耗预警。
+
+## 司机班次合规预检
+
+- 司机档案三项配置（均为分钟，0 表示不限制）：`dailyDriveLimitMinutes` 每日驾驶上限、
+  `minRestMinutes` 相邻任务最短休息、`nightRestMinutes` 夜间最短连续休息。
+- 建单（`POST /api/dispatch-orders/`）与发车（`POST /api/dispatch-orders/{id}/start/`）时，
+  按已有计划（Assigned/InProgress）与完成记录（Completed）核对：
+  当日累计驾驶（按日历日切分）、与相邻任务的间隔、跨夜空档中的夜间连续休息、任务时间重叠。
+- 冲突时返回 HTTP 409，消息包含涉及单号与「还缺多少时间」，调度单不落库 / 不进入执行。
+- 选人预检：`POST /api/dispatch-orders/precheck/`，返回 `{ eligible, reasons, violations, blockedUntil }`。
+- 司机列表 `GET /api/drivers/?withSchedule=1` 携带今日累计、下次可接单时间、未来占用；
+  `PATCH /api/drivers/{id}/` 更新合规配置。
+- 后端首次启动会在空库写入演示数据（赵强昨夜长途、孙晨明日已排班），便于直接验证冲突场景。
+- 后端规则测试：`cd backend && DB_ENGINE=django.db.backends.sqlite3 DB_NAME=/tmp/t.db python manage.py test fleet_app.tests_pkg`。
 
 ## 本地开发
 

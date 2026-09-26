@@ -21,6 +21,10 @@ class Driver(models.Model):
     status = models.CharField(max_length=24)
     driving_hours = models.IntegerField(default=0)
     violation_count = models.IntegerField(default=0)
+    # 班次合规配置（0 表示不启用该限制）
+    daily_drive_limit_minutes = models.IntegerField(default=480, verbose_name='每日驾驶上限（分钟）')
+    min_rest_minutes = models.IntegerField(default=60, verbose_name='相邻任务最短休息（分钟）')
+    night_rest_minutes = models.IntegerField(default=480, verbose_name='夜间最短连续休息（分钟，22:00-次日06:00）')
 
 class DispatchOrder(models.Model):
     order_no = models.CharField(max_length=40)
