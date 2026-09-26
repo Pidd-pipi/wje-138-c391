@@ -9,6 +9,8 @@ INSTALLED_APPS = ['django.contrib.auth', 'django.contrib.contenttypes', 'rest_fr
 MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware', 'fleet_app.middleware.request_logger.RequestLoggerMiddleware', 'fleet_app.middleware.audit_log.AuditLogMiddleware', 'fleet_app.middleware.error_handler.ErrorHandlerMiddleware', 'django.middleware.common.CommonMiddleware']
 ROOT_URLCONF = 'config.urls'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+USE_TZ = True
+TIME_ZONE = 'Asia/Shanghai'
 CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {

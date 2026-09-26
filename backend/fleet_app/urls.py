@@ -2,8 +2,8 @@ from django.urls import path
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from fleet_app.views.vehicle_views import vehicles
-from fleet_app.views.driver_views import drivers
-from fleet_app.views.dispatch_views import dispatch_orders
+from fleet_app.views.driver_views import driver_assignment_check, driver_detail, drivers
+from fleet_app.views.dispatch_views import dispatch_assign, dispatch_orders, dispatch_start
 from fleet_app.views.maintenance_views import maintenance_records
 from fleet_app.views.fuel_views import fuel_records
 
@@ -15,7 +15,11 @@ urlpatterns = [
     path('health/', health),
     path('vehicles/', vehicles),
     path('drivers/', drivers),
+    path('drivers/<int:driver_id>/', driver_detail),
+    path('drivers/<int:driver_id>/assignment-check/', driver_assignment_check),
     path('dispatch-orders/', dispatch_orders),
+    path('dispatch-orders/<int:order_id>/assign/', dispatch_assign),
+    path('dispatch-orders/<int:order_id>/start/', dispatch_start),
     path('maintenance-records/', maintenance_records),
     path('fuel-records/', fuel_records),
 ]
