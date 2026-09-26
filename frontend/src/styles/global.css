@@ -1,0 +1,13 @@
+body { margin: 0; background: #f4f1ea; color: #202018; font-family: "Avenir Next", "PingFang SC", sans-serif; }
+.layout { min-height: 100vh; display: grid; grid-template-columns: 220px 1fr; }
+.sidebar { background: #fffdf8; border-right: 1px solid #d8d0c1; padding: 22px 16px; }
+.brand { font-size: 20px; font-weight: 800; margin-bottom: 22px; }
+.nav { display: grid; gap: 8px; }
+.nav a { color: #716b5f; padding: 10px 12px; border-radius: 6px; }
+.nav a.active { color: #202018; background: #e8e0d2; }
+.main { padding: 24px; }
+.head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .grid-2, .grid-3 { grid-template-columns: 1fr; } }
